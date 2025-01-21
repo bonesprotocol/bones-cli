@@ -20,7 +20,7 @@ export class Tag {
   static Pointer = 4;
   static Claim = 6;
 
-  // Enshrine
+  // Deploy
   static Seed = 10;
   static Amount = 12;
   static Cap = 14;
@@ -35,21 +35,6 @@ export class Tag {
   static SwapOutput = 32;
   static SwapInputAmount = 34;
   static SwapOutputAmount = 36;
-
-  // Summoning
-  static Treasure = 40;
-  static SyndicateCap = 42;
-  static Lock = 44;
-  static HeightStart = 46;
-  static HeightEnd = 48;
-  static Quota = 50;
-  static Royalty = 52;
-  static Reward = 54;
-
-  // Chest
-  static Syndicate = 60;
-
-  static Cenotaph = 126;
 
   static Symbol = 5;
   static Nop = 127;
@@ -70,14 +55,11 @@ export class Tag {
 
 export class Flag {
   static Commitment = 0;
-  static Sealing = 1;
+  static Claim = 1;
   static Deployment = 2;
   static MintTerms = 3;
   static Swap = 4;
   static SwapExactInput = 5;
-  static Summoning = 6;
-  static Gated = 7;
-  static LockSubsidy = 8;
   static Reveal = 9;
   static Turbo = 10;
 

@@ -18,8 +18,8 @@ export function encodeProtocolMessage(keepsake: Keepsake): Uint8Array {
     flags = flags | Flag.mask(Flag.Commitment);
   }
 
-  if (keepsake.sealing) {
-    flags = flags | Flag.mask(Flag.Sealing);
+  if (keepsake.claim) {
+    flags = flags | Flag.mask(Flag.Claim);
   }
 
   if (keepsake.reveal) {

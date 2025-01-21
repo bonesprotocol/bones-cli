@@ -67,8 +67,8 @@ export type InscriptionData = {
   sat: any | null;
   satpoint: string;
   timestamp: string;
-  relic_sealed: any | null;
-  relic_enshrined: boolean;
+  bone_claimed: any | null;
+  bone_deployed: boolean;
   syndicate: any | null;
   charms: any[];
   child_count: number;
@@ -172,8 +172,8 @@ export type Keepsake = {
   pointer?: number; // output number to receive unallocated Bones, if not specified the first non-OP_RETURN output is used
   claim?: bigint; // if set any tokens claimable by the script of the given output will be allocated
   commitment?: boolean; // enable commitment check
-  sealing?: boolean; // seal a Bone Ticker
-  deployment?: Deployment; // deploy a previously sealed Bone
+  claiming?: boolean; // claim a Bone Ticker
+  deployment?: Deployment; // deploy a previously claimed Bone
   mint?: Mint; // mint given Bone
   swap?: Swap; // execute token swap
   summoning?: Summoning; // summon a Syndicate

@@ -1,12 +1,12 @@
 import * as btc from "@scure/btc-signer";
 import {
   BaseTransactionParams,
-  SealingTransactionParams,
+  ClaimTransactionParams,
   DeployTransactionParams,
   TransactionState,
   BaseTransactionSerialized,
   DeployTransactionSerialized,
-  SealingTransactionSerialized,
+  ClaimTransactionSerialized,
   MintTransactionParams,
   MintTransactionSerialized,
   SwapTransactionParams,
@@ -66,26 +66,26 @@ export abstract class BaseTransaction {
   }
 }
 
-export class SealingTransaction extends BaseTransaction {
+export class ClaimTransaction extends BaseTransaction {
   public tick: string;
 
-  constructor({ tx, state, tick }: SealingTransactionParams) {
+  constructor({ tx, state, tick }: ClaimTransactionParams) {
     super({ tx, state });
     this.tick = tick;
   }
 
-  serialize(): SealingTransactionSerialized {
+  serialize(): ClaimTransactionSerialized {
     return {
-      type: "sealing",
+      type: "claim",
       ...super.serialize(),
       tick: this.tick,
     };
   }
 
-  static deserialize(data: SealingTransactionSerialized): SealingTransaction {
+  static deserialize(data: ClaimTransactionSerialized): ClaimTransaction {
     const baseParams = BaseTransaction.deserializeBase(data);
-    return new SealingTransaction({
-      transactionType: "sealing",
+    return new ClaimTransaction({
+      transactionType: "claim",
       ...baseParams,
       tick: data.tick,
     });
@@ -281,25 +281,25 @@ export class RelicBuyTransaction extends BaseTransaction {
 }
 
 import {
-  SealingBuyTransactionParams,
-  SealingBuyTransactionSerialized,
+  ClaimBuyTransactionParams,
+  ClaimBuyTransactionSerialized,
 } from "../types";
 
-export class SealingBuyTransaction extends BaseTransaction {
+export class ClaimBuyTransaction extends BaseTransaction {
   public from: string;
   public tick: string;
   public price: bigint;
 
-  constructor({ tx, state, from, tick, price }: SealingBuyTransactionParams) {
+  constructor({ tx, state, from, tick, price }: ClaimBuyTransactionParams) {
     super({ tx, state });
     this.from = from;
     this.tick = tick;
     this.price = price;
   }
 
-  serialize(): SealingBuyTransactionSerialized {
+  serialize(): ClaimBuyTransactionSerialized {
     return {
-      type: "sealingBuy",
+      type: "claimBuy",
       ...super.serialize(),
       from: this.from,
       tick: this.tick,
@@ -307,12 +307,10 @@ export class SealingBuyTransaction extends BaseTransaction {
     };
   }
 
-  static deserialize(
-    data: SealingBuyTransactionSerialized,
-  ): SealingBuyTransaction {
+  static deserialize(data: ClaimBuyTransactionSerialized): ClaimBuyTransaction {
     const baseParams = BaseTransaction.deserializeBase(data);
-    return new SealingBuyTransaction({
-      transactionType: "sealingBuy",
+    return new ClaimBuyTransaction({
+      transactionType: "claimBuy",
       ...baseParams,
       from: data.from,
       tick: data.tick,

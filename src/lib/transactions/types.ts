@@ -32,14 +32,13 @@ export interface BaseTransactionSerialized {
 }
 
 // Shared interface for all transaction types
-export interface SealingTransactionParams extends BaseTransactionParams {
-  transactionType: "sealing";
+export interface ClaimTransactionParams extends BaseTransactionParams {
+  transactionType: "claim";
   tick: string;
 }
 
-export interface SealingTransactionSerialized
-  extends BaseTransactionSerialized {
-  type: "sealing";
+export interface ClaimTransactionSerialized extends BaseTransactionSerialized {
+  type: "claim";
   tick: string;
 }
 
@@ -111,17 +110,16 @@ export interface RelicBuyTransactionSerialized
   price: string;
 }
 
-// NEW: SealingBuyTransaction types
-export interface SealingBuyTransactionParams extends BaseTransactionParams {
-  transactionType: "sealingBuy";
+export interface ClaimBuyTransactionParams extends BaseTransactionParams {
+  transactionType: "claimBuy";
   from: string;
   tick: string;
   price: bigint;
 }
 
-export interface SealingBuyTransactionSerialized
+export interface ClaimBuyTransactionSerialized
   extends BaseTransactionSerialized {
-  type: "sealingBuy";
+  type: "claimBuy";
   from: string;
   tick: string;
   price: string;
@@ -129,12 +127,12 @@ export interface SealingBuyTransactionSerialized
 
 // Union type combining all transaction types
 export type TransactionFactoryParams =
-  | SealingTransactionParams
+  | ClaimTransactionParams
   | DeployTransactionParams
   | MintTransactionParams
   | SwapTransactionParams
   | RelicBuyTransactionParams
-  | SealingBuyTransactionParams
+  | ClaimBuyTransactionParams
   | RelicTransferTransactionParams
   | BtcTransferTransactionParams
   | BoneStoneUnwrapTransactionParams;

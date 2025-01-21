@@ -21,7 +21,7 @@ const { NETWORK } = btc;
 export const createDeployTransaction = ({
   boneDeployParams,
   fundingUtxos,
-  sealingUtxo,
+  claimUtxo,
   hdPrivateKey,
   network,
   feePerByte,
@@ -29,7 +29,7 @@ export const createDeployTransaction = ({
 }: {
   boneDeployParams: BoneDeployParams;
   fundingUtxos: UTXO[];
-  sealingUtxo: EnhancedUTXO;
+  claimUtxo: EnhancedUTXO;
   hdPrivateKey: Uint8Array;
   network: typeof NETWORK;
   feePerByte: bigint;
@@ -44,7 +44,7 @@ export const createDeployTransaction = ({
 
   const { p2sh } = res;
   const commitOutputs: Output[] = [
-    // the output for the funding of the reveal tx and carrying the sealing inscription
+    // the output for the funding of the reveal tx and carrying the claim inscription
     {
       script: hex.decode(p2sh.toHex()),
       amount: BigInt(INSCRIPTION_TARGET_SIZE + 4_271_000),
@@ -65,7 +65,7 @@ export const createDeployTransaction = ({
       bip69: false,
       createTx: true,
       network,
-      requiredInputs: [sealingUtxo].map(utxo2InputDoge(spender)),
+      requiredInputs: [claimUtxo].map(utxo2InputDoge(spender)),
       allowLegacyWitnessUtxo: true,
     },
   );
@@ -88,12 +88,12 @@ export const createDeployTransaction = ({
       address: spender.address!,
       amount: BigInt(INSCRIPTION_TARGET_SIZE),
     },
-    // output carrying the sealing inscription
+    // output carrying the claim inscription
     {
       address: spender.address!,
       amount: BigInt(INSCRIPTION_TARGET_SIZE),
     },
-    // output carrying the sealing script
+    // output carrying the claim script
     {
       script: hex.decode(deployScript.toHex()),
       amount: 0n,

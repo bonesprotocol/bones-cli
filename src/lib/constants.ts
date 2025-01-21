@@ -54,7 +54,7 @@ if (!PROTOCOL_OPCODE) {
 export const BONE_DECIMALS = 8;
 export const BONE_DECIMALS_DIVISOR = 10 ** BONE_DECIMALS;
 
-export const SEAL_PRICE_IN_BASE_TOKEN = (length: number) => {
+export const CLAIM_PRICE_IN_BASE_TOKEN = (length: number) => {
   switch (length) {
     case 0:
       return null;

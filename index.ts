@@ -8,7 +8,7 @@ import {
   BITCOINJSLIB_NETWORK,
   BONES_CLI_PASSWORD,
   FEE_PER_BYTE,
-  SEAL_PRICE_IN_BASE_TOKEN,
+  CLAIM_PRICE_IN_BASE_TOKEN,
 } from "./src/lib/constants";
 import { EnhancedUTXO, UTXO } from "./src/lib/types";
 import { BaseTransaction } from "./src/lib/transactions/models/Transaction";
@@ -21,7 +21,7 @@ import {
 import { listBones } from "./src/bones";
 import { fetchBone } from "./src/lib/fetchBone";
 import { createBoneTransferTransaction } from "./src/lib/transactions/createBoneTransferTransaction";
-import { createSealingTransactions } from "./src/lib/transactions/createSealingTransaction";
+import { createClaimTransactions } from "./src/lib/transactions/createClaimTransaction";
 import { listTickers } from "./src/tickers";
 import {
   BoneDeployParams,
@@ -206,7 +206,7 @@ bones
       process.exit(1);
     }
 
-    const sealingUtxo = {
+    const claimUtxo = {
       txid: ownedTicker.output.split(":")[0],
       vout: parseInt(ownedTicker.output.split(":")[1], 10),
       value: ownedTicker.value,
@@ -222,7 +222,7 @@ bones
     const { commitTx, revealTx } = createDeployTransaction({
       boneDeployParams,
       fundingUtxos,
-      sealingUtxo,
+      claimUtxo,
       hdPrivateKey: pk,
       network,
       feePerByte: FEE_PER_BYTE,
@@ -473,9 +473,9 @@ tickers
   .argument("[ticker]", "The ticker you want to claim")
   .action(async (ticker) => {
     const deployableTicker = ticker.replace(/^•+|•+$/g, "");
-    const sealingPrice = SEAL_PRICE_IN_BASE_TOKEN(deployableTicker.length);
-    if (sealingPrice === null) {
-      console.error("Could not get sealing price!");
+    const claimPrice = CLAIM_PRICE_IN_BASE_TOKEN(deployableTicker.length);
+    if (claimPrice === null) {
+      console.error("Could not get claim price!");
       process.exit(1);
     }
 
@@ -491,7 +491,7 @@ tickers
       totalAmountOwned += BigInt(b.amount);
     }
 
-    if (totalAmountOwned < sealingPrice) {
+    if (totalAmountOwned < claimPrice) {
       console.error("Insufficient bones!");
       process.exit(1);
     }
@@ -533,7 +533,7 @@ tickers
     const network = BITCOINJSLIB_NETWORK;
 
     const { pk } = account.getPrivateKey();
-    const { commitTx, revealTx } = createSealingTransactions({
+    const { commitTx, revealTx } = createClaimTransactions({
       ticker: deployableTicker,
       fundingUtxos,
       boneUtxos,
@@ -545,7 +545,7 @@ tickers
     await postTransactionRaw(commitTx.hex);
 
     const transaction: BaseTransaction = TransactionFactory.createTransaction({
-      transactionType: "sealing",
+      transactionType: "claim",
       tick: ticker,
       tx: btc.Transaction.fromRaw(revealTx.toBuffer(), {
         allowUnknownOutputs: true,

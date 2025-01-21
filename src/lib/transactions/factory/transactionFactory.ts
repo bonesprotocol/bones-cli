@@ -1,11 +1,11 @@
 import {
   BaseTransaction,
-  SealingTransaction,
+  ClaimTransaction,
   DeployTransaction,
   MintTransaction,
   SwapTransaction,
   RelicBuyTransaction,
-  SealingBuyTransaction,
+  ClaimBuyTransaction,
   RelicTransferTransaction,
   BtcTransferTransaction,
   BonestoneUnwrapTransaction,
@@ -15,8 +15,8 @@ import { TransactionFactoryParams } from "../types";
 export class TransactionFactory {
   static createTransaction(params: TransactionFactoryParams): BaseTransaction {
     switch (params.transactionType) {
-      case "sealing":
-        return new SealingTransaction({
+      case "claim":
+        return new ClaimTransaction({
           transactionType: params.transactionType,
           tx: params.tx,
           state: params.state,
@@ -63,8 +63,8 @@ export class TransactionFactory {
           amount: params.amount,
           price: params.price,
         });
-      case "sealingBuy":
-        return new SealingBuyTransaction({
+      case "claimBuy":
+        return new ClaimBuyTransaction({
           transactionType: params.transactionType,
           tx: params.tx,
           state: params.state,

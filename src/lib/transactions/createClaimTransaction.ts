@@ -13,7 +13,7 @@ import {
 import { EnhancedUTXO, Keepsake, UTXO } from "../types";
 import { createScript } from "../protocolMessages/keepsake";
 
-export const createSealingTransactions = ({
+export const createClaimTransactions = ({
   ticker,
   fundingUtxos,
   boneUtxos,
@@ -69,10 +69,10 @@ export const createSealingTransactions = ({
   commitTxEstimation.tx.finalize();
 
   const keepsake: Keepsake = {
-    sealing: true,
+    claiming: true,
     pointer: 1, // we assign all non-assigned bones to the first output
   };
-  const sealingScript = createScript(keepsake);
+  const claimScript = createScript(keepsake);
 
   const revealOutputs: Output[] = [
     // output for the bones change
@@ -85,9 +85,9 @@ export const createSealingTransactions = ({
       address: spender.address!,
       amount: BigInt(BONES_UTXO_TARGET_SIZE),
     },
-    // output carrying the sealing script
+    // output carrying the claim script
     {
-      script: hex.decode(sealingScript.toHex()),
+      script: hex.decode(claimScript.toHex()),
       amount: 0n,
     },
   ];
