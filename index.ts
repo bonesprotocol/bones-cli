@@ -589,7 +589,7 @@ tickers
     }
 
     console.log(`Found ${tickers!.length} tickers`);
-    console.log(tickers);
+    console.log(tickers.map((t) => t.ticker));
   });
 
 const wallet = program.command("wallet").description("Manage wallets");

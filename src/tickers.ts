@@ -1,5 +1,6 @@
 import { fetchAddressTransactions } from "./lib/fetchAddressTransactions";
 import { fetchOutputs } from "./lib/fetchOutputs";
+import { fetchTicker } from "./lib/fetchTicker";
 
 interface Ticker {
   inscriptionId: string;
@@ -90,5 +91,14 @@ export const listTickers = async (address: string) => {
     }
   }
 
-  return tickers;
+  const validatedTickers: Ticker[] = [];
+  for (const ticker of tickers) {
+    try {
+      await fetchTicker(ticker.ticker);
+      validatedTickers.push(ticker);
+    } catch (err) {
+      // do nothing
+    }
+  }
+  return validatedTickers;
 };
