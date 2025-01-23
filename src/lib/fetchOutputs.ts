@@ -11,7 +11,7 @@ export const fetchOutputs = async (
 
   const requests = outputChunks.map(async (chunk) => {
     const queryParam = chunk.join(",");
-    const response = await axios.get(`${ORD_URL}/outputs/${queryParam}`, {
+    const response = await axios.get(`${ORD_URL}/outputs_full/${queryParam}`, {
       headers: {
         Accept: "application/json",
       },

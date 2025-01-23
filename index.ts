@@ -260,7 +260,7 @@ bones
 bones
   .command("list")
   .description("List all bones of wallet")
-  .argument("[address]", "The address to list bone stones for")
+  .argument("[address]", "The address to list bones for")
   .action(async (address) => {
     let bones;
 
@@ -279,7 +279,17 @@ bones
     }
 
     console.log(`Found ${bones!.length} bones entries`);
-    console.log(bones);
+
+    // Aggregate the bones by ticker
+    const bonesByTicker = bones.reduce((acc: any, bone: any) => {
+      if (!acc[bone.ticker]) {
+        acc[bone.ticker] = BigInt(0);
+      }
+      acc[bone.ticker] += BigInt(bone.amount);
+      return acc;
+    }, {});
+
+    console.log(bonesByTicker);
   });
 
 bones
