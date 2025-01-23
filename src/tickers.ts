@@ -93,6 +93,7 @@ export const listTickers = async (address: string) => {
 
   const validatedTickers: Ticker[] = [];
   for (const ticker of tickers) {
+    if (validatedTickers.find((t) => t.ticker === ticker.ticker)) continue;
     try {
       await fetchTicker(ticker.ticker);
       validatedTickers.push(ticker);
